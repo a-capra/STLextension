@@ -12,23 +12,22 @@ int main()
     int ntrials = 100000;
     std::vector<double> measurements;
     std::cout << "Fake measurements with mean " << mu << " and standard deviation " << sigma << std::endl;
+    histogram<double> H1(20, -17., 3.);
     for(int i = 0; i < ntrials; ++i) 
     {
         double result = distribution(generator);
         measurements.push_back(result);
+        H1.Fill(result);
     }
+    H1.Stats();
+    H1.Print();
+    H1.PrintStats();
 
-    histogram<double> H(20, -17., 3.);
-    H.Fill(measurements);
-    H.Stats();
-    H.Print();
-
-    std::cout << "Most Probable Bin: " << H.GetMostProbable()
-        << "\tMean: " << H.GetMean()
-        << " RMS: " << H.GetRMS()
-        << "\t Median: " << H.GetMedian()
-        << "\t Entries: " << H.GetEntries() << std::endl;
-
+    histogram<double> H2(20, -17., 3.);
+    H2.Fill(measurements);
+    H2.Print();
+    H2.PrintStats();
+    
     return 0;
 }
 
